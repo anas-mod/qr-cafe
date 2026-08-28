@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+
+  <!-- Anton = bold condensed display font, like hand-painted shop signage.
+       Space Mono = for prices/the order ticket, like a printed receipt.
+       Work Sans = readable body text. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<!-- data-slug lets menu.js know which restaurant's menu to fetch,
+     without needing a build step or framework routing -->
+<body data-slug="{{ slug }}">
+
+  <header class="signboard">
+    <h1 id="cafe-name">Loading…</h1>
+    <p class="tagline">scan · order · sip</p>
+  </header>
+
+  <main>
+    <div id="category-tabs" class="tabs"></div>
+    <div id="menu-list" class="menu-grid"></div>
+  </main>
+
+  <!-- Floating button, always visible, shows running cart count -->
+  <button id="cart-toggle" class="cart-toggle">
+    <span id="cart-count">0</span> items &middot; view order
+  </button>
+
+  <!-- The "order chit" — styled like a real kitchen order ticket.
+       Hidden by default, slides in when cart-toggle is clicked. -->
+  <aside id="order-ticket" class="ticket hidden">
+    <div class="ticket-header">
+      <span>ORDER CHIT</span>
+      <button id="close-ticket" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="ticket-table">
+      <label for="table-number">Table #</label>
+      <input type="text" id="table-number" placeholder="e.g. 5">
+    </div>
+
+    <ul id="ticket-items"></ul>
+
+    <div class="ticket-total">
+      <span>TOTAL</span>
+      <span id="ticket-total-amount">₹0</span>
+    </div>
+
+    <button id="place-order-btn">Place order</button>
+    <div id="order-status"></div>
+  </aside>
+
+  <script src="{{ url_for('static', filename='menu.js') }}"></script>
+</body>
+</html>

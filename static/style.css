@@ -1,0 +1,267 @@
+/* ---- Design tokens ----
+   Palette pulled from Indian roadside cafe signage: hand-painted
+   signboard red/maroon, mustard yellow, warm paper background,
+   charcoal ink for text. Deliberately NOT the generic
+   cream+terracotta AI-template look. */
+
+:root {
+  --paper: #FBF3E3;
+  --ink: #2B2420;
+  --signboard-red: #A3311F;
+  --mustard: #E3A324;
+  --leaf: #4F6B4A;
+  --line: #D8C9A8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Work Sans', sans-serif;
+  padding-bottom: 100px; /* room for the floating cart button */
+}
+
+/* ---- Header: hand-painted signboard ---- */
+
+.signboard {
+  background: var(--signboard-red);
+  color: var(--paper);
+  padding: 32px 20px 24px;
+  text-align: center;
+  border-bottom: 6px solid var(--mustard);
+}
+
+.signboard h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.signboard .tagline {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* ---- Category tabs ---- */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 16px 20px;
+}
+
+.tab {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---- Menu grid ---- */
+
+.menu-grid {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.menu-item .name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.menu-item .category-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--leaf);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.menu-item .price {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  margin-right: 12px;
+}
+
+.menu-item button {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  background: var(--mustard);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.menu-item button:active {
+  transform: scale(0.96);
+}
+
+/* ---- Floating cart button ---- */
+
+.cart-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+#cart-count {
+  background: var(--signboard-red);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+
+/* ---- Order ticket (signature element): looks like a real
+   printed kitchen order chit, torn-paper edge via clip-path ---- */
+
+.ticket {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 80vh;
+  background: #fff;
+  border-top: 3px dashed var(--ink);
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  overflow-y: auto;
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.15);
+}
+
+.ticket.hidden {
+  transform: translateY(110%);
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-bottom: 2px dashed var(--line);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.ticket-header button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ticket-table {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ticket-table label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.ticket-table input {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 80px;
+  font-family: 'Space Mono', monospace;
+}
+
+#ticket-items {
+  list-style: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+}
+
+#ticket-items li {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--line);
+}
+
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 14px 0;
+  border-top: 2px dashed var(--line);
+  margin-top: 8px;
+}
+
+#place-order-btn {
+  width: 100%;
+  background: var(--leaf);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+#order-status {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 10px;
+}
