@@ -3,3 +3,5 @@ __pycache__/
 *.pyc/
 cafe.db
 qr_codes/
+app-bak.py
+app-bak1.py
