@@ -14,16 +14,20 @@ served → billed).
 ## Structure
 
 ```
-app.py            All routes (pages + API)
-database.py       SQLite connection helper
-schema.sql        Tables + sample seed data
-templates/        menu.html, admin.html
-static/           CSS + JS for each page
+client/
+  templates/       menu.html, admin.html
+  static/          CSS + JS for each page
+server/
+  app.py           All routes (pages + API)
+  database.py      SQLite connection helper
+  schema.sql       Tables + sample seed data
+  requirements.txt
 ```
 
 ## Setup
 
 ```bash
+cd server
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
@@ -34,25 +38,53 @@ conn.executescript(open('schema.sql').read())
 conn.commit()
 "
 
+# Set a password for the seeded restaurant (required — it has none by default)
+python3 manage_admin.py set-password sunrise-cafe "pick-a-real-password"
+
 python3 app.py
 ```
 
 Open:
 - Customer menu: `http://127.0.0.1:5000/menu/sunrise-cafe`
-- Staff board: `http://127.0.0.1:5000/admin/sunrise-cafe`
+- Staff login: `http://127.0.0.1:5000/admin/sunrise-cafe/login`
+- **Interactive API docs:** `http://127.0.0.1:5000/apidocs/` — browse every
+  endpoint and click "Try it out" to call it directly from the browser.
+  Start here if you're new to the project.
+
+## Admin access
+
+Each restaurant has its OWN login — logging into `sunrise-cafe` does not
+grant access to any other cafe's dashboard or data.
+
+```bash
+# Set/reset a restaurant's password
+python3 manage_admin.py set-password <slug> <password>
+
+# Onboard a brand new restaurant (creates it + sets its password)
+python3 manage_admin.py add-restaurant "Cafe Name" <slug> <password>
+```
+
+From the admin board, staff can also manage the menu directly (add, edit,
+delete items) under the "Manage Menu" tab — no code changes needed.
 
 ## API
 
-| Method | Route | Purpose |
-|---|---|---|
-| GET | `/api/menu/<slug>` | Get menu items |
-| POST | `/api/order` | Place an order |
-| GET | `/api/order/<id>` | Get status + bill |
-| POST | `/api/order/<id>/status` | Update order status |
-| GET | `/api/orders/<slug>` | All active orders (for admin board) |
-| GET | `/api/generate-qr/<slug>` | Generate QR code PNG |
+Full interactive docs live at `/apidocs/` once the server is running —
+that's the easiest way to explore this. Summary:
+
+| Method | Route | Auth | Purpose |
+|---|---|---|---|
+| GET | `/api/menu/<slug>` | none | Get available menu items (customer-facing) |
+| POST | `/api/order` | none | Place an order |
+| GET | `/api/order/<id>` | none | Get status + bill |
+| POST | `/api/order/<id>/status` | staff | Update order status |
+| GET | `/api/orders/<slug>` | staff | All active orders (for admin board) |
+| GET | `/api/admin/menu/<slug>` | staff | All menu items, incl. unavailable |
+| POST | `/api/admin/menu/<slug>` | staff | Add a menu item |
+| PUT | `/api/admin/menu/<slug>/<id>` | staff | Edit a menu item |
+| DELETE | `/api/admin/menu/<slug>/<id>` | staff | Delete a menu item (blocked if it's part of past orders) |
+| GET | `/api/generate-qr/<slug>` | none | Generate QR code PNG |
 
 ## Not built yet
 
-Payments, admin UI for menu editing, auth on the admin board, production
-deployment. Currently for local dev only.
+Payments, production deployment. Currently for local dev only.

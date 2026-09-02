@@ -1,7 +1,7 @@
 venv/
 __pycache__/
 *.pyc/
-cafe.db
-qr_codes/
+server/cafe.db
+server/qr_codes/
 app-bak.py
 app-bak1.py

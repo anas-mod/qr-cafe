@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Rail — Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body data-slug="{{ slug }}">
+
+  <header class="admin-header">
+    <h1>Order Rail</h1>
+    <span id="restaurant-label" class="restaurant-label"></span>
+    <form method="POST" action="/admin/{{ slug }}/logout" class="logout-form">
+      <button type="submit" class="logout-btn">Log out</button>
+    </form>
+  </header>
+
+  <nav class="admin-tabs">
+    <button class="admin-tab active" data-view="orders">Orders</button>
+    <button class="admin-tab" data-view="menu">Manage Menu</button>
+    <button class="admin-tab" data-view="account">Account</button>
+  </nav>
+
+  <!-- Three columns = three physical clip positions on a real order rail -->
+  <main class="rail" id="orders-view">
+    <section class="rail-column" data-status="pending">
+      <h2>Pending</h2>
+      <div class="ticket-slot" id="col-pending"></div>
+    </section>
+
+    <section class="rail-column" data-status="preparing">
+      <h2>Preparing</h2>
+      <div class="ticket-slot" id="col-preparing"></div>
+    </section>
+
+    <section class="rail-column" data-status="served">
+      <h2>Served</h2>
+      <div class="ticket-slot" id="col-served"></div>
+    </section>
+  </main>
+
+  <!-- Menu management view, hidden by default — toggled via the tabs above -->
+  <main class="menu-manager hidden" id="menu-view">
+    <form id="add-item-form" class="menu-form">
+      <input type="text" id="new-item-name" placeholder="Item name" required>
+      <input type="number" id="new-item-price" placeholder="Price" step="0.01" min="0" required>
+      <input type="text" id="new-item-category" placeholder="Category (e.g. Beverages)">
+      <button type="submit">Add item</button>
+    </form>
+
+    <div id="menu-item-list" class="menu-item-list"></div>
+  </main>
+
+  <!-- Account view: self-service password change -->
+  <main class="account-view hidden" id="account-view">
+    <form id="change-password-form" class="account-form">
+      <h2>Change admin password</h2>
+      <label for="current-password">Current password</label>
+      <input type="password" id="current-password" required>
+
+      <label for="new-password">New password</label>
+      <input type="password" id="new-password" minlength="6" required>
+
+      <label for="confirm-password">Confirm new password</label>
+      <input type="password" id="confirm-password" minlength="6" required>
+
+      <button type="submit">Update password</button>
+      <div id="password-change-status"></div>
+    </form>
+  </main>
+
+  <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>

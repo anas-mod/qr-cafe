@@ -8,7 +8,9 @@ DROP TABLE IF EXISTS order_items;
 CREATE TABLE restaurants (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    slug TEXT UNIQUE NOT NULL      -- used in the QR code URL, e.g. "sunrise-cafe"
+    slug TEXT UNIQUE NOT NULL,     -- used in the QR code URL, e.g. "sunrise-cafe"
+    password_hash TEXT             -- staff login password for THIS restaurant only,
+                                    -- set via manage_admin.py (never stored as plain text)
 );
 
 CREATE TABLE menu_items (
@@ -40,8 +42,10 @@ CREATE TABLE order_items (
     FOREIGN KEY (menu_item_id) REFERENCES menu_items(id)
 );
 
--- Sample seed data so you have something to test against immediately
-INSERT INTO restaurants (name, slug) VALUES ('Demo Cafe', 'demo-cafe');
+-- Sample seed data so you have something to test against immediately.
+-- password_hash is left NULL here — run manage_admin.py to set a real
+-- password before this restaurant's admin login will work.
+INSERT INTO restaurants (name, slug) VALUES ('Sunrise Cafe', 'sunrise-cafe');
 
 INSERT INTO menu_items (restaurant_id, name, price, category) VALUES
     (1, 'Masala Chai', 20.0, 'Beverages'),

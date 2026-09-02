@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .login-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+    .login-box h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .login-box p.sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--leaf);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 14px;
+    }
+    .login-box button {
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+    .login-box .error {
+      color: var(--signboard-red);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-box">
+      <h1>Staff Login</h1>
+      <p class="sub">{{ restaurant_name }}</p>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST">
+        <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+        <input type="password" name="password" placeholder="Password" autofocus required>
+        <button type="submit">Log in</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
