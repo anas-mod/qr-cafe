@@ -41,8 +41,9 @@ swagger = Swagger(app)
 # is only for local dev.
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-this")
 
-# Change this to your real deployed URL once you go live (Render/Railway, etc.)
-BASE_URL = "http://localhost:5000"
+# Render sets RENDER_EXTERNAL_URL automatically once deployed — this falls
+# back to localhost for local dev, so no manual edit is needed either way.
+BASE_URL = os.environ.get("RENDER_EXTERNAL_URL", "http://localhost:5000")
 
 
 def login_required(view_func):

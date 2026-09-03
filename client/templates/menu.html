@@ -5,35 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu</title>
 
-  <!-- Anton = bold condensed display font, like hand-painted shop signage.
-       Space Mono = for prices/the order ticket, like a printed receipt.
-       Work Sans = readable body text. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<!-- data-slug lets menu.js know which restaurant's menu to fetch,
-     without needing a build step or framework routing -->
 <body data-slug="{{ slug }}">
 
-  <header class="signboard">
-    <h1 id="cafe-name">Loading…</h1>
-    <p class="tagline">scan · order · sip</p>
-  </header>
+  <!-- MENU ORDERING SCREEN -->
+  <div id="menu-screen">
+    <header class="signboard">
+      <h1 id="cafe-name">Loading…</h1>
+      <p class="tagline">scan · order · sip</p>
+    </header>
 
-  <main>
     <div id="category-tabs" class="tabs"></div>
     <div id="menu-list" class="menu-grid"></div>
-  </main>
 
-  <!-- Floating button, always visible, shows running cart count -->
-  <button id="cart-toggle" class="cart-toggle">
-    <span id="cart-count">0</span> items &middot; view order
-  </button>
+    <!-- Always visible once the page has items — no longer hidden behind
+         a tap. The total updates live as items are added/removed. -->
+    <button id="bill-bar" class="bill-bar disabled">
+      <span class="bill-bar-count"><span id="bill-count">0</span> items</span>
+      <span class="bill-bar-total">₹<span id="bill-total">0</span></span>
+      <span class="bill-bar-arrow">View bill ▸</span>
+    </button>
+  </div>
 
-  <!-- The "order chit" — styled like a real kitchen order ticket.
-       Hidden by default, slides in when cart-toggle is clicked. -->
+  <!-- Slide-up detailed ticket, opened from the bill bar -->
   <aside id="order-ticket" class="ticket hidden">
     <div class="ticket-header">
       <span>ORDER CHIT</span>
@@ -55,6 +53,43 @@
     <button id="place-order-btn">Place order</button>
     <div id="order-status"></div>
   </aside>
+
+  <!-- LIVE ORDER TRACKING SCREEN — shown after an order is placed.
+       Polls the backend so the bill/status update in real time. -->
+  <div id="tracking-screen" class="hidden">
+    <header class="signboard">
+      <h1>Order Placed</h1>
+      <p class="tagline" id="tracking-subtitle">tracking your order</p>
+    </header>
+
+    <div class="tracking-body">
+      <div class="status-stepper">
+        <div class="step" data-status="pending">
+          <div class="dot"></div>
+          <span>Pending</span>
+        </div>
+        <div class="step" data-status="preparing">
+          <div class="dot"></div>
+          <span>Preparing</span>
+        </div>
+        <div class="step" data-status="served">
+          <div class="dot"></div>
+          <span>Served</span>
+        </div>
+      </div>
+
+      <div class="live-bill">
+        <div class="live-bill-header">Your Bill <span class="live-tag">● live</span></div>
+        <ul id="tracking-items"></ul>
+        <div class="live-bill-total">
+          <span>TOTAL</span>
+          <span id="tracking-total">₹0</span>
+        </div>
+      </div>
+
+      <button id="new-order-btn" class="new-order-btn">Add more items</button>
+    </div>
+  </div>
 
   <script src="{{ url_for('static', filename='menu.js') }}"></script>
 </body>

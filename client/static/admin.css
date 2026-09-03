@@ -5,35 +5,48 @@
   --mustard: #E3A324;
   --leaf: #4F6B4A;
   --line: #D8C9A8;
-  --rail-bg: #3A332B; /* dark wood-rail background behind the columns */
+  --shadow: 0 2px 12px rgba(43,36,32,0.10);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--rail-bg);
+  background: var(--paper);
   color: var(--ink);
   font-family: 'Work Sans', sans-serif;
-  min-height: 100vh;
 }
+
+.hidden { display: none !important; }
+
+/* ---- Header ---- */
 
 .admin-header {
   background: var(--signboard-red);
   color: var(--paper);
   padding: 20px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
   border-bottom: 4px solid var(--mustard);
 }
 
-.logout-form {
-  margin-left: auto;
+.admin-header h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
+.restaurant-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  background: rgba(0,0,0,0.15);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.logout-form { margin-left: auto; }
 
 .logout-btn {
   background: transparent;
@@ -43,62 +56,172 @@ body {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.15s;
 }
 
-.hidden {
-  display: none !important;
-}
+.logout-btn:hover { background: rgba(251,243,227,0.15); }
 
-/* ---- Tabs: switch between Orders board and Manage Menu ---- */
+/* ---- Tabs ---- */
 
 .admin-tabs {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   padding: 14px 20px 0;
+  background: var(--signboard-red);
 }
 
 .admin-tab {
   font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 8px 14px;
-  border: 2px solid var(--paper);
-  border-radius: 999px 999px 0 0;
-  background: transparent;
+  font-size: 0.78rem;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  background: rgba(251,243,227,0.15);
   color: var(--paper);
   cursor: pointer;
+  transition: background 0.15s;
 }
 
 .admin-tab.active {
   background: var(--paper);
   color: var(--ink);
+  font-weight: 700;
 }
 
-/* ---- Menu management view ---- */
+/* ---- Order rail: three status columns ---- */
 
-.menu-manager {
+.rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   padding: 20px;
 }
+
+.rail-column h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--leaf);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--line);
+}
+
+.ticket-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 60px;
+}
+
+.empty-note {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--line);
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ---- Order ticket card ---- */
+
+.order-ticket {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.ticket-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.table-tag {
+  background: var(--mustard);
+  color: var(--ink);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+}
+
+.order-ticket ul {
+  list-style: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  margin-bottom: 8px;
+}
+
+.order-ticket li {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px dotted var(--line);
+}
+
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 8px 0;
+  border-top: 2px dashed var(--line);
+  margin-bottom: 10px;
+}
+
+.order-ticket button {
+  width: 100%;
+  background: var(--leaf);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.timestamp {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--line);
+  text-align: right;
+  margin-top: 6px;
+}
+
+/* ---- Menu management ---- */
+
+.menu-manager { padding: 20px; }
 
 .menu-form {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   background: #fff;
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
 }
 
 .menu-form input {
   font-family: 'Space Mono', monospace;
-  padding: 8px 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 8px;
   flex: 1;
   min-width: 120px;
 }
@@ -107,8 +230,8 @@ body {
   background: var(--leaf);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
+  border-radius: 8px;
+  padding: 9px 18px;
   font-family: 'Space Mono', monospace;
   font-weight: 700;
   text-transform: uppercase;
@@ -123,45 +246,31 @@ body {
 }
 
 .menu-manage-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 90px 1.2fr auto auto auto;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
   background: #fff;
-  padding: 10px 14px;
-  border-radius: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
   border: 1px solid var(--line);
+  box-shadow: var(--shadow);
 }
 
-.menu-manage-row.unavailable {
-  opacity: 0.55;
-}
+.menu-manage-row.unavailable { opacity: 0.5; }
 
 .menu-manage-row input[type="text"],
 .menu-manage-row input[type="number"] {
   font-family: 'Space Mono', monospace;
-  padding: 6px 8px;
+  padding: 7px 9px;
   border: 1px solid var(--line);
-  border-radius: 5px;
-}
-
-.menu-manage-row .edit-name {
-  flex: 2;
-  min-width: 100px;
-}
-
-.menu-manage-row .edit-price {
-  width: 80px;
-}
-
-.menu-manage-row .edit-category {
-  flex: 1;
-  min-width: 90px;
+  border-radius: 6px;
+  width: 100%;
 }
 
 .menu-manage-row .avail-toggle {
   font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -171,39 +280,32 @@ body {
 .menu-manage-row .save-btn,
 .menu-manage-row .delete-btn {
   font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   border: none;
-  border-radius: 5px;
-  padding: 6px 10px;
+  border-radius: 6px;
+  padding: 8px 12px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.menu-manage-row .save-btn {
-  background: var(--leaf);
-  color: #fff;
-}
+.menu-manage-row .save-btn { background: var(--leaf); color: #fff; }
+.menu-manage-row .delete-btn { background: var(--signboard-red); color: #fff; }
 
-.menu-manage-row .delete-btn {
-  background: var(--signboard-red);
-  color: #fff;
-}
+/* ---- Account view ---- */
 
-/* ---- Account view: change password form ---- */
-
-.account-view {
-  padding: 20px;
-}
+.account-view { padding: 20px; }
 
 .account-form {
   background: #fff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 22px;
   max-width: 340px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: var(--shadow);
 }
 
 .account-form h2 {
@@ -225,9 +327,9 @@ body {
 
 .account-form input {
   font-family: 'Space Mono', monospace;
-  padding: 8px 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .account-form button {
@@ -235,8 +337,8 @@ body {
   background: var(--leaf);
   color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 11px;
   font-family: 'Space Mono', monospace;
   font-weight: 700;
   text-transform: uppercase;
@@ -250,142 +352,22 @@ body {
   margin-top: 8px;
 }
 
-#password-change-status.error {
-  color: var(--signboard-red);
-}
+#password-change-status.error { color: var(--signboard-red); }
+#password-change-status.success { color: var(--leaf); }
 
-#password-change-status.success {
-  color: var(--leaf);
-}
+/* ---- Mobile: stack the rail and menu rows ---- */
 
-.admin-header h1 {
-  font-family: 'Anton', sans-serif;
-  font-size: 1.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.restaurant-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.85rem;
-  opacity: 0.85;
-}
-
-/* ---- The rail itself: three columns on a dark "wood" background,
-   evoking a literal clip-rail with tickets hanging on it ---- */
-
-.rail {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 20px;
-}
-
-@media (max-width: 700px) {
+@media (max-width: 720px) {
   .rail {
     grid-template-columns: 1fr;
   }
-}
 
-.rail-column h2 {
-  font-family: 'Space Mono', monospace;
-  color: var(--paper);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.85rem;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 2px dashed rgba(251,243,227,0.3);
-}
+  .menu-manage-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 
-.ticket-slot {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 60px;
-}
-
-/* ---- Individual order ticket: torn-paper look via a dashed
-   bottom edge and slight rotation for a "clipped-on" feel ---- */
-
-.order-ticket {
-  background: #fff;
-  border-radius: 6px 6px 2px 2px;
-  padding: 14px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-  font-family: 'Space Mono', monospace;
-  transform: rotate(-0.4deg);
-}
-
-.order-ticket:nth-child(even) {
-  transform: rotate(0.4deg);
-}
-
-.order-ticket .ticket-top {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border-bottom: 1px dashed var(--line);
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-}
-
-.order-ticket .table-tag {
-  background: var(--mustard);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-}
-
-.order-ticket ul {
-  list-style: none;
-  font-size: 0.8rem;
-  margin-bottom: 10px;
-}
-
-.order-ticket li {
-  display: flex;
-  justify-content: space-between;
-  padding: 3px 0;
-}
-
-.order-ticket .ticket-total {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-  font-size: 0.85rem;
-  border-top: 1px dashed var(--line);
-  padding-top: 8px;
-  margin-bottom: 10px;
-}
-
-.order-ticket button {
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  cursor: pointer;
-  background: var(--leaf);
-  color: #fff;
-}
-
-.order-ticket .timestamp {
-  font-size: 0.65rem;
-  color: #888;
-  margin-top: 6px;
-  text-align: right;
-}
-
-.empty-note {
-  color: rgba(251,243,227,0.4);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
-  text-align: center;
-  padding: 20px 0;
+  .menu-manage-row .avail-toggle {
+    justify-self: start;
+  }
 }
